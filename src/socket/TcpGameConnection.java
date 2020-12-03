@@ -42,7 +42,7 @@ public class TcpGameConnection implements IConnection {
 		assertResponse(response[0], "SHOOT");
 		assertLength(response.length, 3);
 		int x = Integer.parseInt(response[1]);
-		int y = Integer.parseInt(response[1]);
+		int y = Integer.parseInt(response[2]);
 		boolean result = onShooted.shooted(x, y);
 		socket.sendLineSync(String.format("%s;%s", "RESULT", result ? "TRUE" : "FALSE"));
 	}

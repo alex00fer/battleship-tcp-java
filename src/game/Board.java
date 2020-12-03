@@ -76,13 +76,15 @@ public class Board {
 		Tile shootedTile = myBoard[x][y];
 		switch (shootedTile.getState()) {
 		case CLEAR:
+		case SHOOTED_CLEAR:
 			shootedTile.setState(TileState.SHOOTED_CLEAR);
 			return TileState.SHOOTED_CLEAR;
 		case SHIP:
+		case SHOOTED_SHIP:
 			shootedTile.setState(TileState.SHOOTED_SHIP);
 			return TileState.SHOOTED_SHIP;
 		default:
-			throw new InvalidParameterException("Invalid shooted tile state!");
+			throw new InvalidParameterException("Unknown shooted tile state!");
 		}
 	}
 	
