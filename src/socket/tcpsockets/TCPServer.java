@@ -10,7 +10,7 @@ public class TCPServer implements ISocket {
 	private BufferedReader reader;
 	private PrintWriter writer;
 	
-	public TCPServer(int port) throws UnknownHostException, IOException {
+	public TCPServer(int port) {
 		try {
 			server = new ServerSocket(port);
 			System.out.println("Esperando conexión...");
@@ -40,7 +40,7 @@ public class TCPServer implements ISocket {
 		writer.println(line);
 	}
 	
-	public String receiveLineSync(String line) {
+	public String receiveLineSync() {
 		String msg = null;
 		try {
 			msg = reader.readLine();

@@ -9,7 +9,7 @@ public class TCPClient implements ISocket {
 	private BufferedReader reader;
 	private PrintWriter writer;
 	
-	public TCPClient(String address, int port) throws UnknownHostException, IOException {
+	public TCPClient(String address, int port) {
 		try {
 			socket = new Socket(address, port);
 			System.out.println("Conexión establecida: " + socket);
@@ -36,7 +36,7 @@ public class TCPClient implements ISocket {
 		writer.println(line);
 	}
 	
-	public String receiveLineSync(String line) {
+	public String receiveLineSync() {
 		String msg = null;
 		try {
 			msg = reader.readLine();
