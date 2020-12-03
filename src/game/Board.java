@@ -4,12 +4,10 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import game.Tile.TileState;
 
 public class Board {
 
-	// final char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
 	final int size, numberOfShips;
 	Tile[][] myBoard, enemyBoard;
 
@@ -95,6 +93,9 @@ public class Board {
 		enemyBoard[y][x].setState(state ? TileState.SHOOTED_SHIP : TileState.SHOOTED_CLEAR);
 	}
 	
+	/**
+	 * Prints the board to the console
+	 */
 	public void print() {
 		System.out.println();
 		System.out.println("          OPPONENT'S BOARD     ");

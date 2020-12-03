@@ -1,7 +1,6 @@
 package game;
 
 import app.ScannerWrapper;
-import game.Tile.TileState;
 import socket.IConnection;
 import socket.IConnection.IShooted;
 
@@ -70,13 +69,13 @@ public class Battleship {
 		};
 
 		if (!shootFirst) { // opponent shoots first, wait for it
-			board.print(); //show boards
+			board.print(); //show board
 			System.out.println(" Waiting for opponent's action...");
 			conn.waitForOpponent(onShooted);
 		}
 
 		while (running) {
-			board.print(); //show boards
+			board.print(); //show board
 
 			System.out.println(" Enter attack tile:");
 			int x = ScannerWrapper.readInteger("   > X", 0, boardSize - 1);

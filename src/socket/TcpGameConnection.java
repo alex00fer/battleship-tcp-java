@@ -1,7 +1,5 @@
 package socket;
 
-import javax.xml.ws.Response;
-
 import socket.tcpsockets.ISocket;
 import socket.tcpsockets.TCPClient;
 import socket.tcpsockets.TCPServer;
