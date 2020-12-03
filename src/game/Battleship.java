@@ -70,7 +70,8 @@ public class Battleship {
 		};
 
 		if (!shootFirst) { // opponent shoots first, wait for it
-			System.out.println(" Waiting for opponent...");
+			board.print(); //show boards
+			System.out.println(" Waiting for opponent's action...");
 			conn.waitForOpponent(onShooted);
 		}
 

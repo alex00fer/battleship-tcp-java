@@ -12,11 +12,12 @@ public class TCPClient implements ISocket {
 	public TCPClient(String address, int port) {
 		try {
 			socket = new Socket(address, port);
-			System.out.println("Conexión establecida: " + socket);
+			System.out.println("Connection stablished: " + socket.getInetAddress());
 			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
 		} catch (IOException e) {
-			System.err.printf("Imposible conectar con ip:%s / puerto:%d",address,port);
+			System.err.printf("Cannot connect to server %s:%d \n",address,port);
+			System.err.println("Terminating game");
 			System.exit(-1);
 		}
 	}
@@ -29,7 +30,7 @@ public class TCPClient implements ISocket {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("-> Cliente Terminado");
+		System.out.println("Client closed");
 	}
 	
 	public void sendLineSync(String line) {

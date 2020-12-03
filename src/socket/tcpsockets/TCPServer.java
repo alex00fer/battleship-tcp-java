@@ -13,17 +13,18 @@ public class TCPServer implements ISocket {
 	public TCPServer(int port) {
 		try {
 			server = new ServerSocket(port);
-			System.out.println("Esperando conexión...");
+			System.out.println("Waiting for an opponent...");
 			client = server.accept();
-			System.out.println("Conexión acceptada: " + client);
+			System.out.println("Opponent connected: " + client.getInetAddress());
 			reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(client.getOutputStream())), true);
 		} catch (IOException e) {
-			System.out.println("No puede escuchar en el puerto: " + port);
+			System.err.println("Server cannot start at port: " + port + 
+					". This usually means that the port is already in use.");
 			System.exit(-1);
 		}
 	}
-	
+
 	public void close() {
 		try {
 			writer.close();
@@ -35,11 +36,11 @@ public class TCPServer implements ISocket {
 		}
 		System.out.println("-> Servidor Terminado");
 	}
-	
+
 	public void sendLineSync(String line) {
 		writer.println(line);
 	}
-	
+
 	public String receiveLineSync() {
 		String msg = null;
 		try {
