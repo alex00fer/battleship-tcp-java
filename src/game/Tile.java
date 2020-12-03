@@ -14,10 +14,10 @@ public class Tile {
 	
 	public enum TileState { 
 		UNKNOWN ('?'), 
-		CLEAR('□'), 
-		SHIP('■'), 
-		SHOOTED_CLEAR('▨'), 
-		SHOOTED_SHIP('✷');
+		CLEAR(' '), 
+		SHIP('O'), 
+		SHOOTED_CLEAR('·'), 
+		SHOOTED_SHIP('@');
 		
 		private final char representation;
 

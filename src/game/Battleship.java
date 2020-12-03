@@ -60,22 +60,11 @@ public class Battleship {
 		IShooted onShooted = new IConnection.IShooted() {
 			@Override
 			public boolean shooted(int x, int y) {
-				TileState tileState = board.shooted(x, y);
+				boolean hit = board.shooted(x, y);
 
-				boolean hit = false;
-				switch (tileState) {
-				case SHOOTED_CLEAR:
-					hit = false;
-				case SHOOTED_SHIP:
-					hit = true;
-				default:
-					hit = false;
-				}
-				
-				System.out.println(
-						String.format("You have been shooted at [%d,%d] | %s", x, y, 
-								hit ? "A ship was destroyed!" : "It hit the water"));
-				
+				System.out.println(String.format(" You have been shooted at [%d,%d] | %s", x, y,
+						hit ? "A ship was destroyed!" : "It hit the water"));
+
 				return hit;
 			}
 		};
@@ -86,15 +75,17 @@ public class Battleship {
 		}
 
 		while (running) {
-			// TODO show boards
+			board.print(); //show boards
 
 			System.out.println(" Enter attack tile:");
-			boolean result = conn.shootSync( // shoot
-					ScannerWrapper.readInteger("   > X", 0, boardSize - 1),
-					ScannerWrapper.readInteger("   > Y", 0, boardSize - 1));
+			int x = ScannerWrapper.readInteger("   > X", 0, boardSize - 1);
+			int y = ScannerWrapper.readInteger("   > Y", 0, boardSize - 1);
+			boolean result = conn.shootSync(x, y); // shoot
+
 			System.out.println(result ? " You destroyed an enemy ship!" : " It hit the water");
+			board.updateEnemyTile(x, y, result);
+
 			System.out.println(" Waiting for opponent's action...");
-			
 			conn.waitForOpponent(onShooted); // wait
 
 		}

@@ -10,7 +10,7 @@ public class Main {
 	public static void main(String[] args) {
 		Battleship.Configuration gameConfig = new Battleship.Configuration();
 		gameConfig.setBoardSize(10);
-		gameConfig.setNumberOfShips(80);
+		gameConfig.setNumberOfShips(20);
 		
 		IConnection conn = new TcpGameConnection("localhost", 45322);
 		Battleship battleship = new Battleship(gameConfig, conn);
