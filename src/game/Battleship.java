@@ -23,7 +23,6 @@ public class Battleship {
 	private int numberOfShips;
 	private Board board;
 	private IConnection conn;
-	private boolean running = false;
 
 	public enum ConnectionMode {
 		CLIENT, SERVER
@@ -54,7 +53,7 @@ public class Battleship {
 
 	private void gameLoop(boolean shootFirst) {
 
-		running = true;
+		boolean winner = false;
 
 		IShooted onShooted = new IConnection.IShooted() {
 			@Override
@@ -66,6 +65,11 @@ public class Battleship {
 
 				return hit;
 			}
+			
+			@Override
+			public boolean isGameOver() {
+				return board.haveILost();
+			}
 		};
 
 		if (!shootFirst) { // opponent shoots first, wait for it
@@ -74,7 +78,7 @@ public class Battleship {
 			conn.waitForOpponent(onShooted);
 		}
 
-		while (running) {
+		while (!board.haveILost()) {
 			board.print(); //show board
 
 			System.out.println(" Enter attack tile:");
@@ -84,11 +88,22 @@ public class Battleship {
 
 			System.out.println(result ? " You destroyed an enemy ship!" : " It hit the water");
 			board.updateEnemyTile(x, y, result);
+			
+			if (conn.opponentLost()) { // You win
+				winner = true;
+				break; 
+			}
 
 			System.out.println(" Waiting for opponent's action...");
 			conn.waitForOpponent(onShooted); // wait
 
 		}
+		
+		System.out.println("     * * *     ");
+		if (winner)
+			System.out.println(" YOU WON THE GAME!");
+		else
+			System.out.println(" YOU LOST... YOUR ENTIRE FLEET WAS DESTROYED");
 
 	}
 

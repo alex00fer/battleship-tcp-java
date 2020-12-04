@@ -9,6 +9,7 @@ public class TcpGameConnection implements IConnection {
 	private String address;
 	private int port;
 	private ISocket socket;
+	private boolean opponentLost;
 
 	public TcpGameConnection(String address, int port) {
 		this.address = address;
@@ -29,9 +30,20 @@ public class TcpGameConnection implements IConnection {
 	public boolean shootSync(int x, int y) {
 		socket.sendLineSync(String.format("%s;%d;%d", "SHOOT", x, y));
 		String[] response = socket.receiveLineSync().split(";");
-		assertResponse(response[0], "RESULT");
-		assertLength(response.length, 2);
-		return response[1].equalsIgnoreCase("TRUE") ? true : false;
+		if (response[0].equalsIgnoreCase("END")) {
+			opponentLost = true;
+			return true;
+		}
+		else {
+			assertResponse(response[0], "RESULT");
+			assertLength(response.length, 2);
+			return response[1].equalsIgnoreCase("TRUE") ? true : false;
+		}
+	}
+	
+	@Override
+	public boolean opponentLost() {
+		return opponentLost;
 	}
 
 	@Override
@@ -42,7 +54,13 @@ public class TcpGameConnection implements IConnection {
 		int x = Integer.parseInt(response[1]);
 		int y = Integer.parseInt(response[2]);
 		boolean result = onShooted.shooted(x, y);
-		socket.sendLineSync(String.format("%s;%s", "RESULT", result ? "TRUE" : "FALSE"));
+		boolean end = onShooted.isGameOver();
+		if (!end) {
+			socket.sendLineSync(String.format("%s;%s", "RESULT", result ? "TRUE" : "FALSE"));
+		}
+		else {
+			socket.sendLineSync("END");
+		}
 	}
 
 	private void assertResponse(String response, String expected) {

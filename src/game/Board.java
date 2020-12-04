@@ -92,6 +92,27 @@ public class Board {
 	public void updateEnemyTile(int x, int y, boolean state) {
 		enemyBoard[y][x].setState(state ? TileState.SHOOTED_SHIP : TileState.SHOOTED_CLEAR);
 	}
+
+	
+	/**
+	 * Checks if the game has ended
+	 */
+	public boolean haveILost() {
+		if (!checkIfBoardHasShips(myBoard)) 
+			return true;
+		else
+			return false;
+	}
+	
+	private boolean checkIfBoardHasShips(Tile[][] board) {
+		for (int row = 0; row < board.length; row++) {
+			for (int col = 0; col < board[row].length; col++) {
+				if (board[row][col].getState() == TileState.SHIP)
+					return true;
+			}
+		}
+		return false; // no ships
+	}
 	
 	/**
 	 * Prints the board to the console

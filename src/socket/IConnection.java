@@ -7,9 +7,11 @@ public interface IConnection {
 	
 	public boolean shootSync(int x, int y);
 	public void waitForOpponent(IShooted onShooted);
+	public boolean opponentLost();
 	
 	public interface IShooted {
 		public boolean shooted(int x, int y);
+		public boolean isGameOver();
 	}
 
 }
